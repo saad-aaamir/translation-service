@@ -1,0 +1,40 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /translations
+spring:
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306}/translation_hub?createDatabaseIfNotExist=true
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:root}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      expiration: 86400000000 # a day
+      refresh-token:
+        expiration: 604800000000 # 7 days
+springdoc:
+  swagger-ui:
+    use-root-path: true
+  paths-to-match:
+    - /**/v1/**/
+    - /auth/**
+    - /api/user/**
+    - /api/records/**
+    - /api/files/**
+    - /api/admin/**
+    - /api/tags/**

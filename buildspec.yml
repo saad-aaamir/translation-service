@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto21
+
+  pre_build:
+    commands:
+      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 541971055918.dkr.ecr.eu-west-1.amazonaws.com
+      - mvn clean install -Dmaven.test.skip=true -Dfindbugs.skip=true -Dcheckstyle.skip=true -Dspotbugs.skip=true -Ddependency-check.skip=true 
+      - cp target/application-0.0.1-SNAPSHOT.jar app.jar
+
+  build:
+    commands:
+      - docker build -t active-sloth-prod-broker-be-ecr .
+      - docker tag active-sloth-prod-broker-be-ecr:latest 541971055918.dkr.ecr.eu-west-1.amazonaws.com/active-sloth-prod-broker-be-ecr:latest
+
+  post_build:
+    commands:
+      - docker push 541971055918.dkr.ecr.eu-west-1.amazonaws.com/active-sloth-prod-broker-be-ecr:latest
+      - printf '[{"name":"broker-be","imageUri":"541971055918.dkr.ecr.eu-west-1.amazonaws.com/active-sloth-prod-broker-be-ecr:latest"}]' > imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
