@@ -1,7 +1,7 @@
 package com.application.config.jwt;
 
-import com.application.appuser.AppUser;
-import com.application.appuser.AppUserRepository;
+import com.application.entity.AppUser;
+import com.application.repository.AppUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

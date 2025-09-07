@@ -1,6 +1,6 @@
 package com.application.config;
 
-import com.application.appuser.AppUserRepository;
+import com.application.repository.AppUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
