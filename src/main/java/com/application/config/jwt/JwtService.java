@@ -1,6 +1,6 @@
 package com.application.config.jwt;
 
-import com.application.appuser.AppUser;
+import com.application.entity.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

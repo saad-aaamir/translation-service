@@ -1,6 +1,6 @@
 package com.application.config.jwt;
 
-import com.application.appuser.AppUser;
+import com.application.entity.AppUser;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,4 +1,4 @@
-package com.application.appuser;
+package com.application.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
