@@ -1,36 +1,73 @@
 package com.application.mapper;
 
-
 import com.application.dto.request.TagCreateRequest;
 import com.application.dto.response.TagResponse;
 import com.application.entity.Tag;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
-public interface TagMapper {
+@Component
+public class TagMapper {
 
-    Tag toEntity(TagCreateRequest request);
+    public Tag toEntity(TagCreateRequest request) {
+        if (request == null) {
+            return null;
+        }
+        return Tag.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .build();
+    }
 
-    TagResponse toResponse(Tag entity);
+    public TagResponse toResponse(Tag entity) {
+        if (entity == null) {
+            return null;
+        }
+        return TagResponse.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .description(entity.getDescription())
+                .createdAt(entity.getCreatedAt())
+                .build();
+    }
 
-    List<TagResponse> toResponseList(List<Tag> entities);
+    public List<TagResponse> toResponseList(List<Tag> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
 
-    Set<TagResponse> toResponseSet(Set<Tag> entities);
+    public Set<TagResponse> toResponseSet(Set<Tag> entities) {
+        if (entities == null) {
+            return null;
+        }
+        return entities.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toSet());
+    }
 
-    void updateEntityFromRequest(@MappingTarget Tag entity, TagCreateRequest request);
+    public void updateEntityFromRequest(Tag entity, TagCreateRequest request) {
+        if (request == null || entity == null) {
+            return;
+        }
+        entity.setName(request.getName());
+        entity.setDescription(request.getDescription());
+    }
 
-    // 👇 Add this method
-    default Tag toEntity(String tagName) {
+    public Tag toEntity(String tagName) {
         if (tagName == null) {
             return null;
         }
         return Tag.builder().name(tagName).build();
     }
 
-    // Optional reverse mapping
-    default String toName(Tag tag) {
+    public String toName(Tag tag) {
         return tag != null ? tag.getName() : null;
     }
 }
