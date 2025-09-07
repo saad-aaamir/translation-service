@@ -16,7 +16,7 @@ public interface TranslationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "tags", expression = "java(new HashSet<>())")
+    @Mapping(target = "tags", source = "tagNames") // Map tagNames → tags via TagMapper
     Translation toEntity(TranslationCreateRequest request);
 
     TranslationResponse toResponse(Translation entity);
