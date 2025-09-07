@@ -27,13 +27,13 @@ public class AuthController {
     @PostMapping(path = "/user/signup")
     @Operation(summary = "User Signup", description = "Register as a user.")
     public ResponseEntity<ApiResponse<?>> signup(@RequestBody SignupRequestDto signupRequestDto) {
-        return ResponseEntity.ok(ApiResponse.success("User signed up successfully", authServiceImpl.signup(signupRequestDto)));
+        return ResponseEntity.ok(ApiResponse.success(authServiceImpl.signup(signupRequestDto)));
     }
 
 
     @PostMapping(path = "/login")
     @Operation(summary = "User Authentication", description = "Authenticate and log in a user")
     public ResponseEntity<ApiResponse<?>> login(@RequestBody LoginRequestDto loginRequestDto) {
-        return ResponseEntity.ok(ApiResponse.success("User logged in successfully", authServiceImpl.login(loginRequestDto)));
+        return ResponseEntity.ok(ApiResponse.success(authServiceImpl.login(loginRequestDto)));
     }
 }
