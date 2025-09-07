@@ -38,3 +38,4 @@ springdoc:
     - /api/files/**
     - /api/admin/**
     - /api/tags/**
+    - /api/translations/**
