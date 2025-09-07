@@ -14,33 +14,13 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {TagMapper.class})
 public interface TranslationMapper {
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "updatedAt", ignore = true),
-            @Mapping(target = "tags", source = "tagNames")
-    })
     Translation toEntity(TranslationCreateRequest request);
 
     TranslationResponse toResponse(Translation entity);
 
     List<TranslationResponse> toResponseList(List<Translation> entities);
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "translationKey", ignore = true),
-            @Mapping(target = "locale", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "updatedAt", ignore = true),
-            @Mapping(target = "tags", ignore = true)
-    })
     void updateEntityFromRequest(@MappingTarget Translation entity, TranslationUpdateRequest request);
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "updatedAt", ignore = true),
-            @Mapping(target = "tags", ignore = true)
-    })
     void updateEntityFromCreateRequest(@MappingTarget Translation entity, TranslationCreateRequest request);
 }
