@@ -1,8 +1,6 @@
-package com.application.service;
+package com.application.service.impl;
 
 import com.application.common.enums.RoleType;
-import com.application.common.exceptions.ApplicationError;
-import com.application.common.exceptions.ApplicationException;
 import com.application.common.request.LoginRequestDto;
 import com.application.common.request.SignupRequestDto;
 import com.application.common.response.AuthenticationResponse;
@@ -10,22 +8,18 @@ import com.application.config.jwt.JwtService;
 import com.application.entity.AppUser;
 import com.application.exception.BusinessLogicException;
 import com.application.repository.AppUserRepository;
+import com.application.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
 import java.util.Optional;
 
-import static com.application.common.response.ResponseCode.SIGNUP_SUCCESS;
-import static com.application.common.response.ResponseCode.USER_ALREADY_EXISTS;
-
 @Service
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,6 +30,7 @@ public class AuthServiceImpl {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Override
     public String signup(SignupRequestDto signupRequestDto) {
         if (appUserRepository.findByUsername(signupRequestDto.getUsername()).isPresent()) {
             throw new BusinessLogicException("User already exists with username: " + signupRequestDto.getUsername());
@@ -54,6 +49,7 @@ public class AuthServiceImpl {
         return "Signup successful!";
     }
 
+    @Override
     public AuthenticationResponse login(LoginRequestDto loginRequest) {
         Optional<AppUser> user = appUserRepository.findByUsername(loginRequest.getUsername());
         if (user.isPresent()) {
