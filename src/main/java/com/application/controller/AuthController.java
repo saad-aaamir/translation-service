@@ -1,7 +1,7 @@
 package com.application.controller;
 
-import com.application.common.request.LoginRequestDto;
-import com.application.common.request.SignupRequestDto;
+import com.application.dto.request.LoginRequestDto;
+import com.application.dto.request.SignupRequestDto;
 import com.application.dto.response.ApiResponse;
 import com.application.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;

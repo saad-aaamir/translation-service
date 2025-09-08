@@ -1,4 +1,4 @@
-package com.application.common.response;
+package com.application.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String accessToken;
+public class LoginRequestDto {
+    private String username;
+    private String password;
 }

@@ -1,4 +1,4 @@
-package com.application.common.request;
+package com.application.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignupRequestDto {
-    private String username;
-    private String password;
+public class AuthenticationResponse {
+    private String accessToken;
 }
