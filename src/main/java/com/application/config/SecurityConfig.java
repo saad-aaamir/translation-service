@@ -36,8 +36,8 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(JwtAuthenticationEntryPoint))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/api/tags/**", "/api/otp/**").permitAll()
-                        .requestMatchers("/api/user/**", "/api/files/**", "/api/records/**").hasAuthority(RoleType.USER.name())
+                        .requestMatchers("/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/tags/**", "/api/translations/**" ).hasAuthority(RoleType.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -50,7 +50,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://192.168.1.22:4200","http://51.20.48.196:9116", "http://localhost:4200", "https://broker.dev-sloth.pro","https://brokerly-fe.vercel.app")); // or "*" in dev only
+        config.setAllowedOrigins(List.of("*")); // or "*" in dev only
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

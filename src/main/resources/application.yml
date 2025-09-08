@@ -33,9 +33,5 @@ springdoc:
   paths-to-match:
     - /**/v1/**/
     - /auth/**
-    - /api/user/**
-    - /api/records/**
-    - /api/files/**
-    - /api/admin/**
     - /api/tags/**
     - /api/translations/**
