@@ -43,14 +43,12 @@ public class TranslationServiceImpl implements TranslationService {
     public TranslationResponse createTranslation(TranslationCreateRequest request) {
         log.debug("Creating translation with key: {} and locale: {}", request.getTranslationKey(), request.getLocale());
 
-        // Check for duplicate
         if (translationRepository.findByTranslationKeyAndLocale(request.getTranslationKey(), request.getLocale()).isPresent()) {
             throw new DuplicateResourceException(request.getTranslationKey(), request.getLocale());
         }
 
         Translation translation = translationMapper.toEntity(request);
 
-        // Handle tags
         if (request.getTagNames() != null && !request.getTagNames().isEmpty()) {
             Set<Tag> tags = findOrCreateTags(request.getTagNames());
             translation.setTags(tags);

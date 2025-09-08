@@ -93,9 +93,6 @@ public class DatabasePopulationService {
                 log.info("Completed batch {}/{} ({} records)",
                         batchIndex + 1, numberOfBatches, endIndex);
             }
-
-            // Clear memory
-//            batchTranslations.clear();
         }
     }
 

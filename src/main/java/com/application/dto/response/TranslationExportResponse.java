@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class TranslationExportResponse {
     private String locale;
-    private Map<String, String> translations; // key -> content
+    private Map<String, String> translations;
     private List<String> tags;
     private long totalCount;
     private String exportedAt;

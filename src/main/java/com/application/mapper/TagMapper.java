@@ -43,31 +43,11 @@ public class TagMapper {
                 .collect(Collectors.toList());
     }
 
-    public Set<TagResponse> toResponseSet(Set<Tag> entities) {
-        if (entities == null) {
-            return null;
-        }
-        return entities.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toSet());
-    }
-
     public void updateEntityFromRequest(Tag entity, TagCreateRequest request) {
         if (request == null || entity == null) {
             return;
         }
         entity.setName(request.getName());
         entity.setDescription(request.getDescription());
-    }
-
-    public Tag toEntity(String tagName) {
-        if (tagName == null) {
-            return null;
-        }
-        return Tag.builder().name(tagName).build();
-    }
-
-    public String toName(Tag tag) {
-        return tag != null ? tag.getName() : null;
     }
 }

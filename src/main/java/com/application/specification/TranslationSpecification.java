@@ -14,12 +14,10 @@ public class TranslationSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Filter by locale
             if (request.getLocale() != null && !request.getLocale().trim().isEmpty()) {
                 predicates.add(criteriaBuilder.equal(root.get("locale"), request.getLocale()));
             }
 
-            // Filter by translation key (like search)
             if (request.getTranslationKey() != null && !request.getTranslationKey().trim().isEmpty()) {
                 predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("translationKey")),
@@ -27,7 +25,6 @@ public class TranslationSpecification {
                 ));
             }
 
-            // Filter by content (like search)
             if (request.getContent() != null && !request.getContent().trim().isEmpty()) {
                 predicates.add(criteriaBuilder.like(
                         criteriaBuilder.lower(root.get("content")),
@@ -35,13 +32,11 @@ public class TranslationSpecification {
                 ));
             }
 
-            // Filter by tag name
             if (request.getTagName() != null && !request.getTagName().trim().isEmpty()) {
                 Join<Translation, Tag> tagJoin = root.join("tags", JoinType.INNER);
                 predicates.add(criteriaBuilder.equal(tagJoin.get("name"), request.getTagName()));
             }
 
-            // Combine all predicates with AND
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

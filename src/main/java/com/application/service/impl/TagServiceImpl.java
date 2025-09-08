@@ -29,8 +29,6 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
     private final TagMapper tagMapper;
 
-
-
     @Override
     public TagResponse createTag(TagCreateRequest request) {
         log.debug("Creating tag with name: {}", request.getName());

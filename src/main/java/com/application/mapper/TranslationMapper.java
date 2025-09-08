@@ -68,16 +68,5 @@ public class TranslationMapper {
             return;
         }
         entity.setContent(request.getContent());
-        // Note: tags are handled separately in the service layer
-    }
-
-    public void updateEntityFromCreateRequest(Translation entity, TranslationCreateRequest request) {
-        if (request == null || entity == null) {
-            return;
-        }
-        entity.setTranslationKey(request.getTranslationKey());
-        entity.setContent(request.getContent());
-        entity.setLocale(request.getLocale());
-        // Note: tags are handled separately in the service layer
     }
 }

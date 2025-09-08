@@ -44,7 +44,6 @@ public class Translation {
     )
     private Set<Tag> tags = new HashSet<>();
 
-    // Constructors
     public Translation() {}
 
     public Translation(String translationKey, String content, String locale) {
@@ -53,7 +52,6 @@ public class Translation {
         this.locale = locale;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -75,14 +73,4 @@ public class Translation {
     public Set<Tag> getTags() { return tags; }
     public void setTags(Set<Tag> tags) { this.tags = tags; }
 
-    // Utility methods
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
-        tag.getTranslations().add(this);
-    }
-
-    public void removeTag(Tag tag) {
-        this.tags.remove(tag);
-        tag.getTranslations().remove(this);
-    }
 }
