@@ -1,0 +1,1145 @@
+{
+	"info": {
+		"_postman_id": "translation-service-api",
+		"name": "Translation Service API",
+		"description": "Complete API collection for Translation Service with authentication, translation management, tag management, and export functionality",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "translation-service"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "User Signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/user/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"user",
+								"signup"
+							]
+						},
+						"description": "Register a new user account"
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data && response.data.token) {",
+									"        pm.environment.set('auth_token', response.data.token);",
+									"        console.log('Token saved:', response.data.token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Authenticate user and get JWT token"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for user registration and login"
+		},
+		{
+			"name": "Tag Management",
+			"item": [
+				{
+					"name": "Create Tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"mobile\",\n  \"description\": \"Mobile application translations\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tags",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						},
+						"description": "Create a new tag"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tags",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						},
+						"description": "Get all tags"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tag by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/{{tag_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"{{tag_id}}"
+							]
+						},
+						"description": "Get tag by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tag by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/name/{{tag_name}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"name",
+								"{{tag_name}}"
+							]
+						},
+						"description": "Get tag by name"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tags Paginated",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/paginated?page=0&size=10&sort=name,ASC",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"paginated"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sort",
+									"value": "name,ASC"
+								}
+							]
+						},
+						"description": "Get tags with pagination"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Tags by Name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/search?name=ui",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"search"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "mobile"
+								}
+							]
+						},
+						"description": "Search tags by name"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Most Used Tags",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/most-used?limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"most-used"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get most used tags"
+					},
+					"response": []
+				},
+				{
+					"name": "Check Tag Exists",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/exists?name=ui-elements",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"exists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "mobile"
+								}
+							]
+						},
+						"description": "Check if tag exists by name"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Tag",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"mobile\",\n  \"description\": \"Updated description for mobile translations\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tags/{{tag_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"{{tag_id}}"
+							]
+						},
+						"description": "Update an existing tag"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tag",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tags/{{tag_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"{{tag_id}}"
+							]
+						},
+						"description": "Delete a tag"
+					},
+					"response": []
+				}
+			],
+			"description": "Tag management endpoints for creating, reading, updating, and deleting tags"
+		},
+		{
+			"name": "Translation Management",
+			"item": [
+				{
+					"name": "Create Translation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"translationKey\": \"welcome.message\",\n  \"content\": \"Welcome to our application!\",\n  \"locale\": \"en\",\n  \"tagNames\": [\"mobile\", \"web\", \"desktop\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/translations",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations"
+							]
+						},
+						"description": "Create a new translation"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Translation by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/{{translation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"{{translation_id}}"
+							]
+						},
+						"description": "Get translation by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Translation by Key and Locale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/key/{{translation_key}}/locale/{{locale}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"key",
+								"{{translation_key}}",
+								"locale",
+								"{{locale}}"
+							]
+						},
+						"description": "Get translation by key and locale"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Translations by Locale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/locale/{{locale}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"locale",
+								"{{locale}}"
+							]
+						},
+						"description": "Get all translations for a specific locale"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Translations by Tag",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/tag/{{tag_name}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"tag",
+								"{{tag_name}}"
+							]
+						},
+						"description": "Get all translations for a specific tag"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Translations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"locale\": \"en\",\n  \"translationKey\": \"welcome\",\n  \"content\": \"welcome\",\n  \"tagName\": \"mobile\",\n  \"page\": 0,\n  \"size\": 20,\n  \"sortBy\": \"createdAt\",\n  \"sortDirection\": \"DESC\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/translations/search",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"search"
+							]
+						},
+						"description": "Search translations with criteria"
+					},
+					"response": []
+				},
+				{
+					"name": "Full Text Search",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/search/fulltext?searchTerm=welcome",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"search",
+								"fulltext"
+							],
+							"query": [
+								{
+									"key": "searchTerm",
+									"value": "welcome"
+								}
+							]
+						},
+						"description": "Full-text search across translations"
+					},
+					"response": []
+				},
+				{
+					"name": "Count Translations by Locale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/count/locale/{{locale}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"count",
+								"locale",
+								"{{locale}}"
+							]
+						},
+						"description": "Count translations by locale"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Translation",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Updated welcome message!\",\n  \"tagNames\": [\"mobile\", \"web\", \"desktop\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/translations/{{translation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"{{translation_id}}"
+							]
+						},
+						"description": "Update an existing translation"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Translation",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/{{translation_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"{{translation_id}}"
+							]
+						},
+						"description": "Delete a translation"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Translations by Locale",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/translations/locale/{{locale}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"translations",
+								"locale",
+								"{{locale}}"
+							]
+						},
+						"description": "Delete all translations for a specific locale"
+					},
+					"response": []
+				}
+			],
+			"description": "Translation management endpoints for CRUD operations and search functionality"
+		},
+		{
+			"name": "Export Management",
+			"item": [
+				{
+					"name": "Export by Locale",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/export/locale/{{locale}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"export",
+								"locale",
+								"{{locale}}"
+							]
+						},
+						"description": "Export all translations for a specific locale with metadata"
+					},
+					"response": []
+				},
+				{
+					"name": "Export as Map",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/export/locale/{{locale}}/map",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"export",
+								"locale",
+								"{{locale}}",
+								"map"
+							]
+						},
+						"description": "Export translations as simple key-value map"
+					},
+					"response": []
+				},
+				{
+					"name": "Export All Translations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/export/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"export",
+								"all"
+							]
+						},
+						"description": "Export all translations from all locales"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Locales",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/export/locales",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"export",
+								"locales"
+							]
+						},
+						"description": "Get list of all available locales"
+					},
+					"response": []
+				}
+			],
+			"description": "Export endpoints for downloading translations in various formats"
+		},
+		{
+			"name": "Sample Data Setup",
+			"item": [
+				{
+					"name": "Setup Test Tags",
+					"item": [
+						{
+							"name": "Create Mobile Tag",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"ui-elements\",\n  \"description\": \"User interface related translations\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/tags",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Web Tag",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"web\",\n  \"description\": \"Web application translations\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/tags",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Desktop Tag",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"desktop\",\n  \"description\": \"Desktop application translations\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/tags",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"tags"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Create sample tags for testing"
+				},
+				{
+					"name": "Setup Test Translations",
+					"item": [
+						{
+							"name": "Create English Welcome Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"translationKey\": \"welcome.message\",\n  \"content\": \"Welcome to our application!\",\n  \"locale\": \"en\",\n  \"tagNames\": [\"ui-elements\"]\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/translations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"translations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Spanish Welcome Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"translationKey\": \"welcome.message\",\n  \"content\": \"¡Bienvenido a nuestra aplicación!\",\n  \"locale\": \"es\",\n  \"tagNames\": [\"mobile\", \"web\", \"desktop\"]\n}"
+						},
+								"url": {
+									"raw": "{{base_url}}/api/translations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"translations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create French Welcome Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"translationKey\": \"welcome.message\",\n  \"content\": \"Bienvenue dans notre application!\",\n  \"locale\": \"fr\",\n  \"tagNames\": [\"mobile\", \"web\", \"desktop\"]\n}"
+						},
+								"url": {
+									"raw": "{{base_url}}/api/translations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"translations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Error Message",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"translationKey\": \"error.invalid.email\",\n  \"content\": \"Please enter a valid email address\",\n  \"locale\": \"en\",\n  \"tagNames\": [\"mobile\", \"web\"]\n}"
+						},
+								"url": {
+									"raw": "{{base_url}}/api/translations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"translations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Navigation Item",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{auth_token}}"
+									}
+								],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"translationKey\": \"nav.home\",\n  \"content\": \"Home\",\n  \"locale\": \"en\",\n  \"tagNames\": [\"web\", \"desktop\"]\n}"
+						},
+								"url": {
+									"raw": "{{base_url}}/api/translations",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"translations"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Create sample translations for testing"
+				}
+			],
+			"description": "Pre-configured requests to set up test data"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080/translations",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tag_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "tag_name",
+			"value": "mobile",
+			"type": "string"
+		},
+		{
+			"key": "translation_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "translation_key",
+			"value": "welcome.message",
+			"type": "string"
+		},
+		{
+			"key": "locale",
+			"value": "en",
+			"type": "string"
+		}
+	]
+}
