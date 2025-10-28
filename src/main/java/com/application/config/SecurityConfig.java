@@ -1,6 +1,6 @@
 package com.application.config;
 
-import com.application.common.enums.RoleType;
+import com.application.enums.RoleType;
 import com.application.config.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

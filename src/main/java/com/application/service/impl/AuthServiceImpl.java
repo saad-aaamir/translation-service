@@ -1,9 +1,9 @@
 package com.application.service.impl;
 
-import com.application.common.enums.RoleType;
-import com.application.common.request.LoginRequestDto;
-import com.application.common.request.SignupRequestDto;
-import com.application.common.response.AuthenticationResponse;
+import com.application.enums.RoleType;
+import com.application.dto.request.LoginRequestDto;
+import com.application.dto.request.SignupRequestDto;
+import com.application.dto.response.AuthenticationResponse;
 import com.application.config.jwt.JwtService;
 import com.application.entity.AppUser;
 import com.application.exception.BusinessLogicException;
